@@ -8,6 +8,7 @@ import backIcon from '../../assets/images/icons/back.svg'
 //definir a tipagem de um objeto
 interface PageHeaderProps{
     title: string;
+    description?: string;
 }
 
 //componente escrito em forma de função
@@ -25,6 +26,8 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
 
             <div className="header-content">
                 <strong>{props.title}</strong>
+                { props.description && <p>{props.description}</p>}
+
                 {props.children}
             </div>
         </header>
