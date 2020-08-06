@@ -1,43 +1,64 @@
 import React from "react";
+import api from "../../services/api";
 
 import whatsappIcon from '../../assets/images/icons/whatsapp.svg';
 
 import "./styles.css";
 
-function TeacherItem() {
+export interface Teacher {
+  id: number;
+  avatar: string;
+  bio: string;
+  cost: number;
+  name: string;
+  subject: string;
+  whatsapp: string;
+}
+
+ interface TeacherItemProps{
+  teacher: Teacher;
+}
+
+
+
+const TeacherItem: React.FC<TeacherItemProps> = ({ teacher }) =>{
+  function createConnection(){
+    api.post('connections',{
+      user_id: teacher.id,
+    })
+  }
+
   return (
     <article className="teacher-item">
       <header>
         <img
-          src="https://pbs.twimg.com/profile_images/1286990813583597568/YBUm8cgA_400x400.jpg"
-          alt="Gabriel Santos"
+          src={teacher.avatar}
+          alt={teacher.name}
         />
         <div>
-          <strong>Gabriel Santos</strong>
-          <span>Física</span>
+          <strong>{teacher.name}</strong>
+          <span>{teacher.subject}</span>
         </div>
       </header>
 
-      <p>
-        Entusiasta das melhores tecnologias de física avançada.
-        <br />
-        <br />
-        Apaixonado por física e por fórmulas malucas que poucos entendem. Mais
-        de 10.000 alunos inpactados com sua didática.
-      </p>
+      <p>{teacher.bio}</p>
 
       <footer>
         <p>
           preço/hora
-          <strong>R$ 100,00</strong>
+          <strong>R$ {teacher.cost}</strong>
         </p>
-        <button type="button">
+        <a 
+          target="_blank" 
+          onClick={createConnection} 
+          href={`https://wa.me/${teacher.whatsapp}`}
+        >
           <img src={whatsappIcon} alt="Whatsapp" />
           Entrar em contato
-        </button>
+        </a>
       </footer>
     </article>
-  );
+  )
 }
 
 export default TeacherItem;
